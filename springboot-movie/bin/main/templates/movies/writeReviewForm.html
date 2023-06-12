@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/default.css">
+</head>
+<body>
+  <div id="container">
+    <h2>[ 리뷰 작성 ]</h2>
+    <form th:action="@{/movies/writeReview(movie_id=${movie.movie_id})}" method="post" th:object="${writeReview}">
+        <h3 th:text="${movie.title}"></h3>
+        <table>
+            <tr>
+                <th>리뷰내용</th>
+                <td>
+                    <textarea rows="10" cols="50" th:field="*{contents}"></textarea>
+                    <div th:errorClass="error" th:errors="*{contents}"></div>
+                </td>
+            </tr>
+            <tr>
+                <th>평점</th>
+                <td>
+                    <input type="number" th:field="*{score}" placeholder="1 ~ 10사이의 정수 입력"> 점
+                    <div th:errorClass="error" th:errors="*{score}"></div>
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" th:field="*{movie_id}">
+        <p>
+        <div class="center">
+            <input type="button" onclick="location.href='/'" value="메인으로">
+            <input type="submit" value="등록하기">
+            <input type="reset" value="취소">
+        </div>
+    </form>
+  </div>
+</body>
+</html>

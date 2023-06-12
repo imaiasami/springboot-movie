@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<link rel="stylesheet" href="/css/default.css">
+</head>
+<body>
+	<div id="container">
+		<h2>[ 리뷰 보기 ]</h2>
+		<h3>[[${reviewsDto.title}]] (평균 평점: [[${reviewsDto.avg_score}]])</h3>
+		<th:block th:if="${myReview}">
+			<h4>내가 작성한 리뷰</h4>
+			<table>
+				<tr>
+					<th>평점</th>
+					<th>내용</th>
+				</tr>
+				<tr>
+					<td class="center" th:text="${myReview.score}"></td>
+					<td th:text="${myReview.contents}"></td>
+				</tr>
+			</table>
+		</th:block>
+		<p>
+		<input type="button" onclick="location.href='/'" value="메인으로">
+		<th:block th:unless="${myReview}">
+			<input type="button" th:onclick="|location.href='@{/movies/writeReview(movie_id=${reviewsDto.movie_id})}'|" value="리뷰 작성하기">
+		</th:block>
+		<th:block th:if="${myReview}">
+			<input type="button" th:onclick="|location.href='@{/movies/updateReview(review_id=${myReview.review_id})}'|" value="리뷰 수정하기">
+			<input type="button" th:onclick="|location.href='@{/movies/removeReview(review_id=${myReview.review_id})}'|" value="리뷰 삭제하기">
+		</th:block>
+		<p>
+		<h4>전체 등록된 리뷰</h4>
+		<table>
+			<tr>
+				<th>No</th>
+				<th>평점</th>
+				<th>내용</th>
+				<th>작성자</th>
+				<th>등록일</th>
+			</tr>
+			<th:block th:if="${reviewsDto.reviews.size() < 1}">
+				<td class="center" colspan="5">등록된 리뷰가 없습니다.</td>
+			</th:block>
+			<tr th:each="review : ${reviewsDto.reviews}">
+				<td class="center" th:text="${reviewStat.count}"></td>
+				<td class="center" th:text="${review.score}"></td>
+				<td th:text="${review.contents}"></td>
+				<td class="center" th:text="${review.member_id}"></td>
+				<td class="center" th:text="${#temporals.format(review.created_date, 'yyyy-MM-dd')}"></td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>
